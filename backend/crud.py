@@ -14,6 +14,16 @@ def create_note(db: Session, title: str, content: str):
     db.refresh(note)
     return note
 
+def update_note(db: Session, note_id: int, title: str, content: str):
+    note = db.query(models.Note).filter(models.Note.id == note_id).first()
+    if not note:
+        return None
+    note.title = title
+    note.content = content
+    db.commit()
+    db.refresh(note)
+    return note
+
 def delete_note(db: Session, note_id: int):
     note = get_note(db, note_id)
     if note:
